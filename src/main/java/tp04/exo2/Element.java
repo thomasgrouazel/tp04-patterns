@@ -1,8 +1,6 @@
 package tp04.exo2;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -14,15 +12,14 @@ import java.util.TreeSet;
  * et tout ce qu'il y a dedans.
  * C'est un Composite au sens pattern.
  */
-public class Element extends Node{
+public class Element extends Node {
     private String tag;
-    private TreeMap<String,String> attributes = new TreeMap<>();
+    private TreeMap<String, String> attributes = new TreeMap<>();
     private List<Node> children = new ArrayList<>();
-
 
     /**
      * Déclare l'élément.
-     * @param tag : 
+     * @param tag : Le nom de la balise.
      */
     public Element(String tag) {
         this.tag = tag;
@@ -55,7 +52,7 @@ public class Element extends Node{
 
     /**
      * Retourne l'ensemble des noms des attributs définis.
-     * @return
+     * @return Un ensemble trié des noms des attributs.
      */
     public Set<String> getDefinedAttributes() {
         return new TreeSet<>(attributes.keySet());
@@ -72,6 +69,25 @@ public class Element extends Node{
 
     @Override
     public String toXML() {
-        throw new UnsupportedOperationException("à écrire");       
+        // Génère les attributs triés par ordre alphabétique
+        StringBuilder attributesBuilder = new StringBuilder();
+        for (String attributeName : getDefinedAttributes()) {
+            String value = XMLHelper.protectAttributeValue(attributes.get(attributeName));
+            attributesBuilder.append(" ").append(attributeName).append("=\"").append(value).append("\"");
+        }
+
+        // Génère le contenu des enfants
+        StringBuilder childrenBuilder = new StringBuilder();
+        for (Node child : children) {
+            childrenBuilder.append(child.toXML());
+        }
+
+        // Si l'élément n'a pas de contenu, utilise une balise fermante explicite
+        if (children.isEmpty()) {
+            return "<" + tag + attributesBuilder + "></" + tag + ">";
+        }
+
+        // Sinon, génère une balise ouvrante et fermante avec contenu
+        return "<" + tag + attributesBuilder + ">" + childrenBuilder + "</" + tag + ">";
     }
 }

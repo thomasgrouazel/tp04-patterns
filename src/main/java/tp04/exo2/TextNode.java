@@ -2,8 +2,6 @@ package tp04.exo2;
 
 /**
  * Un nœud texte dans un document XML.
- * 
- * 
  */
 public class TextNode extends Node {
    private String text;
@@ -27,8 +25,7 @@ public class TextNode extends Node {
 
    @Override
    public String toXML() {
-      throw new UnsupportedOperationException("à écrire");
+      // Échappe les caractères spéciaux pour le XML
+      return XMLHelper.protectText(text);
    }
-   
-   
 }
