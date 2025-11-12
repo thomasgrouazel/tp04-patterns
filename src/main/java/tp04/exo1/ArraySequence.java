@@ -23,5 +23,10 @@ public class ArraySequence implements Sequence {
             return resultat;
         }
     }
+
+    @Override
+    public boolean hasNext() {
+        return position < representation.length;
+    }
     
 }

@@ -9,4 +9,5 @@ public interface Sequence {
      * @return une string, éventuellement nulle.
      */
     String ligneSuivante();
+    boolean hasNext();
 }
